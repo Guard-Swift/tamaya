@@ -23,3 +23,6 @@
 6. **Gitコマンドの実行場所**
    - Gitコマンドを実行する際は、カレントディレクトリ（Cwd）を必ず `tamaya` ディレクトリ（`/Users/matsuzawahiroshi/Desktop/project/tamaya`）に設定してください。親ディレクトリなどの異なるディレクトリで実行すると、不要なファイル走査が発生し実行に非常に時間がかかるため厳禁とします。
 
+7. **コーディングルールの厳守**
+   - HTML、CSS、JavaScriptのコードを作成・編集する際は、必ず [.agents/rules/coding.md](file:///Users/matsuzawahiroshi/Desktop/project/tamaya/.agents/rules/coding.md) に定義されたコーディングルールを厳守してください。特に、CSSやJavaScriptはHTML内に記述せず、必ず外部ファイルに分離して記述してください。
+
