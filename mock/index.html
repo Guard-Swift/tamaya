@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>たまや (tamaya) - 協調型花火リレー</title>
+    <!-- Google Fonts の読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- スタイルシートの読み込み -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 背景の演出用グラデーション/星空 -->
+        <div class="sky-background">
+            <div class="stars"></div>
+        </div>
+
+        <!-- メインコンテンツ領域 -->
+        <main class="main-content">
+            <!-- 1. 入力・リレー進行画面 -->
+            <section id="input-section" class="section-container active">
+                <header class="app-header">
+                    <h1 class="app-title">たまや <span class="app-title-sub">tamaya</span></h1>
+                    <p class="app-description">想いを言葉に、個性を色にのせて。みんなでつなぐ夜空のリレー。</p>
+                </header>
+
+                <div class="form-container">
+                    <!-- 名前入力 -->
+                    <div class="form-group">
+                        <label for="user-name" class="form-label">お名前</label>
+                        <input type="text" id="user-name" class="form-input" placeholder="例：たろう" maxlength="15" required>
+                    </div>
+
+                    <!-- コメント入力 -->
+                    <div class="form-group">
+                        <label for="user-comment" class="form-label">夜空へのメッセージ</label>
+                        <textarea id="user-comment" class="form-input" placeholder="例：合格おめでとう！" maxlength="50" required></textarea>
+                    </div>
+
+                    <!-- 花火の色選択 -->
+                    <div class="form-group">
+                        <label class="form-label">花火の色</label>
+                        <div class="color-palette">
+                            <!-- JSで選択した色を保持するため、data-color属性を使用 -->
+                            <button type="button" class="color-swatch color-red active" data-color="#ff4757" aria-label="赤色の花火"></button>
+                            <button type="button" class="color-swatch color-orange" data-color="#ffa502" aria-label="オレンジ色の花火"></button>
+                            <button type="button" class="color-swatch color-yellow" data-color="#eccc68" aria-label="黄色の花火"></button>
+                            <button type="button" class="color-swatch color-green" data-color="#2ed573" aria-label="緑色の花火"></button>
+                            <button type="button" class="color-swatch color-blue" data-color="#1e90ff" aria-label="青色の花火"></button>
+                            <button type="button" class="color-swatch color-purple" data-color="#9b59b6" aria-label="紫色の花火"></button>
+                            <button type="button" class="color-swatch color-pink" data-color="#ff6b81" aria-label="ピンク色の花火"></button>
+                            <button type="button" class="color-swatch color-gold" data-color="#ffd700" aria-label="金色の花火"></button>
+                        </div>
+                    </div>
+
+                    <!-- ボタンエリア -->
+                    <div class="action-area">
+                        <button type="button" id="btn-next" class="btn btn-primary">
+                            <span class="btn-text">次の人につなぐ</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                        <button type="button" id="btn-launch" class="btn btn-launch is-disabled" disabled>
+                            <span class="btn-text">夜空に打ち上げる！</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 現在のリレー状況 -->
+                <div class="relay-status">
+                    <h2 class="relay-title">現在セットされている花火</h2>
+                    <div class="relay-summary">
+                        <span id="relay-count" class="relay-count-number">0</span> つの想いがセットされています
+                    </div>
+                    <ul id="relay-list" class="relay-list">
+                        <!-- ここにセットされたメッセージが動的に追加されます -->
+                        <li class="relay-empty-message">最初のメッセージをセットしてください</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- 2. 打ち上げ演出画面 -->
+            <section id="launch-section" class="section-container section-launch">
+                <!-- 花火描画用 Canvas -->
+                <canvas id="firework-canvas" class="firework-canvas"></canvas>
+
+                <!-- メッセージ表示オーバーレイ -->
+                <div id="message-overlay" class="message-overlay">
+                    <div class="message-sender-container">
+                        <span id="current-sender" class="message-sender">たろう</span>
+                        <span class="message-sender-suffix">さんの想い</span>
+                    </div>
+                    <div id="current-text" class="message-text">合格おめでとう！</div>
+                </div>
+
+                <!-- 演出終了後リセット用オーバーレイ -->
+                <div id="reset-overlay" class="reset-overlay">
+                    <div class="reset-card">
+                        <h3 class="reset-title">すべての想いが夜空を彩りました</h3>
+                        <p class="reset-description">素敵な花火をありがとうございました！</p>
+                        <button type="button" id="btn-reset" class="btn btn-primary">
+                            <span class="btn-text">新しく花火を作る</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JavaScript の読み込み -->
+    <script src="js/firework.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

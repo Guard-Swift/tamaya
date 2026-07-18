@@ -1,0 +1,634 @@
+/* ==========================================================================
+   Design System / Variables
+   ========================================================================== */
+:root {
+    /* Fonts */
+    --font-base: 'Noto Sans JP', sans-serif;
+    --font-accent: 'Outfit', sans-serif;
+
+    /* Colors */
+    --bg-sky-start: #0b0c1b;
+    --bg-sky-end: #020205;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.4);
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-glow: rgba(255, 255, 255, 0.02);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    /* Interactive Colors */
+    --color-primary: #1e90ff; /* Blue default */
+    --color-primary-glow: rgba(30, 144, 255, 0.5);
+    --color-launch: #ff4757; /* Red default for launch */
+    --color-launch-glow: rgba(255, 71, 87, 0.5);
+
+    /* Animation Transitions */
+    --transition-fast: all 0.15s ease;
+    --transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-base);
+    color: var(--text-primary);
+    background-color: var(--bg-sky-end);
+    overflow-x: hidden;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   App Container & Starry Sky Background
+   ========================================================================== */
+.app-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sky-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--bg-sky-start), var(--bg-sky-end));
+    z-index: -2;
+    overflow: hidden;
+}
+
+/* Starfield generator (using box-shadow trick) */
+.stars {
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: 
+        240px 120px #fff, 380px 240px #fff, 150px 480px #fff,
+        720px 80px #fff,  980px 320px #fff, 540px 640px #fff,
+        110px 920px #fff, 830px 580px #fff, 420px 880px #fff,
+        1200px 150px #fff, 310px 710px #fff, 950px 820px #fff,
+        610px 100px #fff, 80px 350px #fff,  1350px 480px #fff,
+        1450px 890px #fff, 20px 600px #fff, 690px 950px #fff;
+    opacity: 0.5;
+    animation: twinkle 5s infinite ease-in-out alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+
+/* ==========================================================================
+   Layout & Sections
+   ========================================================================== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.section-container {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.section-container.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.app-header {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.app-title {
+    font-family: var(--font-accent);
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffd700, #ff4757);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    position: relative;
+    text-shadow: 0 0 30px rgba(255, 71, 87, 0.2);
+}
+
+.app-title-sub {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    display: block;
+    margin-top: -5px;
+    text-transform: uppercase;
+}
+
+.app-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    max-width: 400px;
+    margin: 12px auto 0;
+}
+
+/* ==========================================================================
+   Glassmorphism Form
+   ========================================================================== */
+.form-container {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.form-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: var(--transition-normal);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary-glow);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+textarea.form-input {
+    resize: none;
+    height: 80px;
+}
+
+/* ==========================================================================
+   Color Palette UI
+   ========================================================================== */
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.color-swatch {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.color-swatch::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: var(--transition-normal);
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.active::after {
+    border-color: var(--text-primary);
+}
+
+/* Swatch Colors */
+.color-red { background-color: #ff4757; }
+.color-orange { background-color: #ffa502; }
+.color-yellow { background-color: #eccc68; }
+.color-green { background-color: #2ed573; }
+.color-blue { background-color: #1e90ff; }
+.color-purple { background-color: #9b59b6; }
+.color-pink { background-color: #ff6b81; }
+.color-gold { background-color: #ffd700; }
+
+/* Active Swatch Glows */
+.color-red.active { box-shadow: 0 0 15px rgba(255, 71, 87, 0.8); }
+.color-orange.active { box-shadow: 0 0 15px rgba(255, 165, 2, 0.8); }
+.color-yellow.active { box-shadow: 0 0 15px rgba(236, 204, 104, 0.8); }
+.color-green.active { box-shadow: 0 0 15px rgba(46, 213, 115, 0.8); }
+.color-blue.active { box-shadow: 0 0 15px rgba(30, 144, 255, 0.8); }
+.color-purple.active { box-shadow: 0 0 15px rgba(155, 89, 182, 0.8); }
+.color-pink.active { box-shadow: 0 0 15px rgba(255, 107, 129, 0.8); }
+.color-gold.active { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.action-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+@media (min-width: 480px) {
+    .action-area {
+        flex-direction: row;
+    }
+}
+
+.btn {
+    flex: 1;
+    position: relative;
+    padding: 14px 24px;
+    border-radius: 12px;
+    border: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Next Button (Primary) */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), #00d2d3);
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px var(--color-primary-glow);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 144, 255, 0.7);
+}
+
+.btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Launch Button */
+.btn-launch {
+    background: linear-gradient(135deg, var(--color-launch), #ff6b81);
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px var(--color-launch-glow);
+}
+
+.btn-launch:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.7);
+}
+
+.btn-launch:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Disabled State */
+.btn:disabled,
+.btn.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Glow Effect Overlay */
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.btn:hover:not(:disabled) .btn-glow {
+    transform: translateX(100%);
+}
+
+/* ==========================================================================
+   Relay Status / List
+   ========================================================================== */
+.relay-status {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.relay-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    position: relative;
+    padding-left: 14px;
+}
+
+.relay-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 16px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+.relay-summary {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.relay-count-number {
+    font-family: var(--font-accent);
+    font-weight: 700;
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.relay-list {
+    list-style: none;
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.relay-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.relay-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+}
+
+.relay-empty-message {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+.relay-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.relay-item-color-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.relay-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.relay-item-sender {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.relay-item-text {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Launch Animation Section
+   ========================================================================== */
+.section-launch {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+    animation: fadeInOnly 0.5s ease-out forwards;
+}
+
+@keyframes fadeInOnly {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.firework-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+    display: block;
+}
+
+/* Overlay message during firework */
+.message-overlay {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 12;
+    pointer-events: none;
+    opacity: 0;
+    transition: var(--transition-slow);
+    width: 90%;
+    max-width: 500px;
+}
+
+.message-overlay.is-visible {
+    opacity: 1;
+}
+
+.message-sender-container {
+    margin-bottom: 12px;
+}
+
+.message-sender {
+    font-family: var(--font-base);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffd700;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.message-sender-suffix {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-left: 6px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.message-text {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 2px 10px rgba(0, 0, 0, 0.9);
+    color: var(--text-primary);
+}
+
+/* Reset overlay card (shows after fireworks end) */
+.reset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 13;
+    padding: 20px;
+}
+
+.reset-overlay.is-visible {
+    display: flex;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.reset-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: var(--glass-shadow);
+}
+
+.reset-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #ffd700;
+}
+
+.reset-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
