@@ -1,7 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 状態管理
     const state = {
-        fireworks: [], // リレーで保存された花火データ { name, comment, color }
+        // グローバルに読み込まれたモックデータがあれば初期値として設定する
+        fireworks: (window.MOCK_FIREWORKS_DATA && Array.isArray(window.MOCK_FIREWORKS_DATA))
+            ? [...window.MOCK_FIREWORKS_DATA]
+            : [],
         selectedColor: '#ff4757', // デフォルト選択色（赤）
     };
 
